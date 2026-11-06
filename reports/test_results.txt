@@ -1,0 +1,43 @@
+FINAL TEST EVALUATION   2026-10-25 09:41   test images: 225
+  CNN normal: models/resnet18_best.pt  md5 8d8e80619de4
+  CNN neutral: models/resnet18_neutral.pt  md5 46c8b98ae1d3
+
+Task 1: all defects vs good   (test: 150 defect / 75 good; 'flag everything' balanced accuracy = 0.500)
+  area_dark      AUC=0.509 (95% range 0.43-0.59)  balanced accuracy=0.503  precision=0.673  recall=0.220
+  area_bright    AUC=0.560 (95% range 0.47-0.64)  balanced accuracy=0.530  precision=0.697  recall=0.460
+  edge_density   AUC=0.619 (95% range 0.54-0.69)  balanced accuracy=0.587  precision=0.730  recall=0.667
+  sharpness      AUC=0.626 (95% range 0.54-0.69)  balanced accuracy=0.633  precision=0.809  recall=0.507
+  CNN normal     AUC=0.963 (95% range 0.94-0.98)  balanced accuracy=0.887  precision=0.921  recall=0.933
+  CNN neutral    AUC=0.958 (95% range 0.93-0.98)  balanced accuracy=0.870  precision=0.913  recall=0.913
+
+Task 2: non-recoverable vs good   (test: 75 defect / 75 good; 'flag everything' balanced accuracy = 0.500)
+  area_dark      AUC=0.562 (95% range 0.47-0.64)  balanced accuracy=0.553  precision=0.536  recall=0.787
+  area_bright    AUC=0.545 (95% range 0.45-0.63)  balanced accuracy=0.520  precision=0.524  recall=0.440
+  edge_density   AUC=0.667 (95% range 0.56-0.75)  balanced accuracy=0.633  precision=0.667  recall=0.533
+  sharpness      AUC=0.662 (95% range 0.56-0.76)  balanced accuracy=0.673  precision=0.717  recall=0.573
+  CNN normal     AUC=0.949 (95% range 0.91-0.97)  balanced accuracy=0.887  precision=0.872  recall=0.907
+  CNN neutral    AUC=0.961 (95% range 0.92-0.99)  balanced accuracy=0.880  precision=0.861  recall=0.907
+
+CNN normal: 3-class accuracy = 0.884
+  confusion (rows = true class; columns = predicted: good / recoverable / non-recoverable)
+  negative                [63, 2, 10]
+  recoverable_defects     [6, 68, 1]
+  non_recoverable_defects [4, 3, 68]
+
+CNN neutral: 3-class accuracy = 0.858
+  confusion (rows = true class; columns = predicted: good / recoverable / non-recoverable)
+  negative                [62, 2, 11]
+  recoverable_defects     [8, 63, 4]
+  non_recoverable_defects [5, 2, 68]
+
+Severity with the default rules (CNN neutral):
+  true class                    None     Low  Medium    High
+  negative                        62       2       1      10
+  recoverable_defects              5      59       7       4
+  non_recoverable_defects          4       2       1      68
+  needs-review flags: 34 of 225 images; 20 of 36 severity decisions that differ from the dataset class were flagged
+
+Inspection time (full pipeline, CPU):
+  225 images: median 284 ms, mean 229 ms, 95th percentile 326 ms
+
+Saved: reports/test_results.txt   (the test split is now marked as used)

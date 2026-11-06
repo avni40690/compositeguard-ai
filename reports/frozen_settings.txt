@@ -1,0 +1,23 @@
+FROZEN BEFORE THE TEST SET WAS USED
+Date: 2026-10-25 [replace with your current time]
+
+Methods, all declared before the test evaluation:
+1. Thresholding baseline: grayscale, Gaussian 5x5, CLAHE, Otsu threshold (dark and bright
+   versions), opening 3 / closing 7, minimum area 30. Image score = total region area
+   (features area_dark and area_bright). Cutoffs chosen on the train split by balanced accuracy.
+2. Edge density (primary classical method): Canny edges on the CLAHE image; image score =
+   share of edge pixels. Also sharpness (Laplacian variance). Cutoffs chosen on train.
+3. CNN normal: ResNet18, pretrained, fine-tuned 5 epochs, Adam 1e-4, best epoch chosen by
+   validation accuracy (models/resnet18_best.pt). Decisions by highest probability.
+4. CNN neutral (the declared PRIMARY model): same training, grayscale input with per-image
+   standardization (models/resnet18_neutral.pt).
+
+Metrics: AUC with 95% bootstrap range (200 resamples), balanced accuracy, precision, recall;
+3-class accuracy and confusion matrix; severity table with the default rules (0.50 / 0.25 /
+0.50 / 0.70, size rule off); full-pipeline inference time.
+
+Localization: Grad-CAM region at 50% of the maximum, regions over 50% of the image are not
+reported. Localization results come from the 10 validation boxes. They are not re-run on test.
+
+Stage 33 will also use the test images for a failure gallery and a lighting-change test.
+Declared now. No setting will be changed after seeing any test result.
